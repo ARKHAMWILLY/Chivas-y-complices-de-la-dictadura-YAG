@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shivas y cómplices de la dictadura YAG</title>
+<style>
+body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;}
+header { background-color: #333; color: white; padding: 20px; text-align: center;}
+h1 { margin: 0; font-size: 20px;}
+.container { padding: 20px; max-width: 800px; margin: auto;}
+form { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;}
+form input, form textarea { width: 100%; margin-bottom: 10px; padding: 8px;}
+form button { padding: 10px 20px; background-color: #333; color: white; border: none; cursor: pointer; border-radius: 5px;}
+.entry { background: white; padding: 10px; margin-bottom: 10px; display: flex; align-items: center; border-radius: 10px;}
+.entry img { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; margin-right: 10px;}
+.entry div { flex: 1;}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Shivas y cómplices de la dictadura YAG</h1>
+</header>
+
+<div class="container">
+<form id="entryForm">
+<input type="text" id="name" placeholder="Nombre" required>
+<textarea id="description" placeholder="Descripción" rows="2" required></textarea>
+<input type="file" id="photo" accept="image/*" required>
+<button type="submit">Agregar Entrada</button>
+</form>
+
+<div id="entries"></div>
+</div>
+
+<script>
+const form = document.getElementById('entryForm');
+const entriesDiv = document.getElementById('entries');
+
+form.addEventListener('submit', function(e){
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const description = document.getElementById('description').value;
+    const photoFile = document.getElementById('photo').files[0];
+    
+    if(photoFile){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'entry';
+            entryDiv.innerHTML = `
+                <img src="${e.target.result}" alt="${name}">
+                <div>
+                    <h3>${name}</h3>
+                    <p>${description}</p>
+                </div>
+            `;
+            entriesDiv.appendChild(entryDiv);
+            form.reset();
+        }
+        reader.readAsDataURL(photoFile);
+    }
+});
+</script>
+
+</body>
+</html>
